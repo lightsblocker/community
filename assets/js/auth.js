@@ -30,9 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function toggleLoading(show) {
-        if (show) loadingOverlay.classList.remove('loading-hidden');
-        else loadingOverlay.classList.add('loading-hidden');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (show) {
+        // Move o loading para o último item do body antes de mostrar
+        // Isso força ele a ficar no topo da árvore de renderização
+        document.body.appendChild(loadingOverlay); 
+        loadingOverlay.classList.remove('loading-hidden');
+    } else {
+        loadingOverlay.classList.add('loading-hidden');
     }
+}
 
     // --- GERADORES DINÂMICOS ---
 
