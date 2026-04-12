@@ -22,21 +22,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 2. Lógica de Login REAL conectada ao banco de dados (Apps Script)
+    // 2. Lógica de Login REAL
     document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const credencialInput = document.getElementById('login-user').value;
         const senhaInput = document.getElementById('login-pass').value;
         const submitBtn = e.target.querySelector('button[type="submit"]');
         
-        // Feedback visual de carregamento
         const textoOriginal = submitBtn.textContent;
         submitBtn.textContent = 'Carregando...';
         submitBtn.disabled = true;
 
         try {
-            // Chama a função genérica que está no api.js
             const resposta = await callGAS({
                 action: "login",
                 credencial: credencialInput,
@@ -44,27 +41,68 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (resposta.sucesso) {
-                // Salva os dados retornados da planilha no cache
                 localStorage.setItem('lightsBlockerUser', JSON.stringify(resposta.dados));
-                
-                // Limpa os campos após o sucesso
                 document.getElementById('login-user').value = '';
                 document.getElementById('login-pass').value = '';
-                
-                // Atualiza a tela
                 checkAuth();
             } else {
                 alert("Atenção: " + (resposta.erro || "Não foi possível fazer login."));
             }
         } catch (error) {
-            console.error("Erro na tentativa de login:", error);
-            alert("Erro de conexão. Verifique sua internet ou tente novamente mais tarde.");
+            alert("Erro de conexão. Verifique sua internet.");
         } finally {
-            // Restaura o botão independente de sucesso ou erro
             submitBtn.textContent = textoOriginal;
             submitBtn.disabled = false;
         }
     });
+
+    // --- NOVAS FUNÇÕES ADICIONADAS ---
+
+    // Abrir Criar Conta
+    document.getElementById('btn-create-account')?.addEventListener('click', () => {
+        document.getElementById('dialog-register').showModal();
+    });
+
+    // Lógica de Registro
+    document.getElementById('register-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const res = await callGAS({
+            action: "registrar",
+            email: document.getElementById('reg-email').value,
+            numero_telefone: document.getElementById('reg-tel').value,
+            idade: document.getElementById('reg-age').value,
+            senha: document.getElementById('reg-pass').value,
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=" + Math.random()
+        });
+        
+        if(res.sucesso) {
+            alert("Conta criada! Seu usuário é: " + res.user);
+            location.reload();
+        } else { alert("Erro: " + res.erro); }
+    });
+
+    // Abrir Esqueci Senha
+    document.getElementById('btn-forgot-pass')?.addEventListener('click', () => {
+        document.getElementById('dialog-forgot').showModal();
+    });
+
+    // Lógica de Recuperação
+    document.getElementById('forgot-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const res = await callGAS({
+            action: "recuperarSenha",
+            email: document.getElementById('forgot-email').value,
+            telefone: document.getElementById('forgot-tel').value,
+            novaSenha: document.getElementById('forgot-new-pass').value
+        });
+        
+        if(res.sucesso) {
+            alert("Senha alterada com sucesso!");
+            document.getElementById('dialog-forgot').close();
+        } else { alert("Erro: " + res.erro); }
+    });
+
+    // --- FIM DAS NOVAS FUNÇÕES ---
 
     // 3. Abrir Perfil
     myProfileBtn.addEventListener('click', () => {
@@ -89,6 +127,5 @@ document.addEventListener("DOMContentLoaded", () => {
         checkAuth();
     });
 
-    // Inicializa
     checkAuth();
 });
