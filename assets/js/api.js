@@ -1,22 +1,21 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbyk0xTgj6OtACN69fSgTQMsI_-YiXqhgXwRdIHr5BADHl2xvx_VzY03LOU1zg881pmeWQ/exec";
 
-/**
- * Envia dados para o Google Apps Script e retorna a resposta
- */
 async function callGAS(data) {
     try {
-        // Removemos o 'no-cors' para conseguir ler o JSON de retorno.
-        // O GAS lida bem com isso se o retorno for via ContentService.
         const response = await fetch(API_URL, {
             method: "POST",
+            mode: "cors", // Mudado para cors com estratégia de envio simples
+            header: { "Content-Type": "text/plain" }, 
             body: JSON.stringify(data)
         });
         return await response.json(); 
     } catch (error) {
-        console.error("Erro na comunicação com o banco de dados:", error);
-        return { sucesso: false, erro: "Falha na conexão." };
+        console.error("Erro na comunicação:", error);
+        return { sucesso: false, erro: "Falha na conexão. Verifique se o Script foi implantado como 'Qualquer Pessoa'." };
     }
 }
+
+// ... manter as funções criarNovoPost e carregarFeed como estão ...
 
 /**
  * Função para publicar um novo post
