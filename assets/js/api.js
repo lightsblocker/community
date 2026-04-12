@@ -1,22 +1,50 @@
-// Substitua pela URL que o Google gera quando você clica em "Implantar" -> "Novo app da Web"
-const API_URL = "https://script.google.com/macros/s/AKfycbxl5DrvwAgpzHI6WGYVOPP-oF6qoHdzXQSKcIiATSClkFUzGvaI9eD-8pTq4IWb7xL82w/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyk0xTgj6OtACN69fSgTQMsI_-YiXqhgXwRdIHr5BADHl2xvx_VzY03LOU1zg881pmeWQ/exec";
 
-// Função genérica para enviar dados ao Apps Script
+/**
+ * Envia dados para o Google Apps Script e retorna a resposta
+ */
 async function callGAS(data) {
     try {
+        // Removemos o 'no-cors' para conseguir ler o JSON de retorno.
+        // O GAS lida bem com isso se o retorno for via ContentService.
         const response = await fetch(API_URL, {
             method: "POST",
-            mode: "no-cors", // Necessário para o GAS em alguns casos
-            headers: {
-                "Content-Type": "application/json",
-            },
             body: JSON.stringify(data)
         });
-        
-        // Nota: no-cors não permite ler a resposta. 
-        // Se precisar ler o retorno (como no login), usaremos um método diferente (JSONP ou CORS)
-        return response;
+        return await response.json(); 
     } catch (error) {
-        console.error("Erro na chamada API:", error);
+        console.error("Erro na comunicação com o banco de dados:", error);
+        return { sucesso: false, erro: "Falha na conexão." };
     }
+}
+
+/**
+ * Função para publicar um novo post
+ */
+async function criarNovoPost(titulo, texto, categoria) {
+    const userStorage = localStorage.getItem('lightsBlockerUser');
+    if (!userStorage) return { sucesso: false, erro: "Usuário não logado" };
+
+    const userData = JSON.parse(userStorage);
+    const agora = new Date();
+
+    const postData = {
+        action: "publicarPost",
+        user: userData.user,
+        titulo: titulo,
+        texto: texto,
+        categoria: categoria,
+        // Formata data e hora para facilitar a limpeza de 7 dias depois
+        data: agora.toLocaleDateString('pt-BR'), 
+        hora: agora.toLocaleTimeString('pt-BR')
+    };
+
+    return await callGAS(postData);
+}
+
+/**
+ * Função para buscar todos os posts do feed
+ */
+async function carregarFeed() {
+    return await callGAS({ action: "getPosts" });
 }
