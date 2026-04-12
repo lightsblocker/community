@@ -1,0 +1,245 @@
+:root {
+    --bg-color: #121212;
+    --container-bg: #2c2c2c;
+    --post-bg: #545454;
+    --text-white: #ffffff;
+    --accent-blue: #1b73e9;
+    --upvote-green: #4caf50;
+    --downvote-red: #f44336;
+    --font-main: 'Open Sans', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-main);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-white);
+}
+
+/* --- Cabeçalho --- */
+#main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 1px; /* 1px de margem lateral */
+    background-color: transparent;
+    max-width: 800px; /* Limite otimizado para não esticar demais no desktop */
+    margin: 0 auto;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.brand-name {
+    color: var(--text-white);
+    font-size: 1.2rem;
+}
+
+.header-right {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid var(--text-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-white);
+    cursor: pointer;
+}
+
+/* --- Container Principal --- */
+#main-container {
+    background-color: var(--container-bg);
+    border-radius: 8px;
+    width: calc(100% - 2px); /* 1px de cada lado do fundo visível */
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 80vh;
+    padding: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Login --- */
+#login-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-top: 50px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #3d3d3d;
+    color: white;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--text-white);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* --- Comunidade --- */
+.community-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.user-avatar-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #555;
+}
+
+.user-avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- Posts --- */
+.post-card {
+    background-color: var(--post-bg);
+    margin: 10px 1px; /* 1px de margem lateral interna no container */
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-header {
+    margin-bottom: 8px;
+}
+
+.post-title {
+    font-weight: bold;
+}
+
+.bullet {
+    margin: 0 5px;
+}
+
+.post-author {
+    color: var(--accent-blue);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.post-body {
+    font-size: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Corta o texto após 2 linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+/* --- Votação (Triângulos CSS) --- */
+.post-footer {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.vote-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 10px solid var(--upvote-green);
+}
+
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 10px solid var(--downvote-red);
+}
+
+.vote-count {
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* --- Dialogs --- */
+dialog {
+    margin: auto;
+    background-color: var(--container-bg);
+    color: var(--text-white);
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.close-dialog {
+    float: right;
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
