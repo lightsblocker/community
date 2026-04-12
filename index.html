@@ -87,6 +87,35 @@
             <button id="btn-logout" class="btn-text" style="color: #f44336;">Sair</button>
         </div>
     </dialog>
+    <dialog id="dialog-register">
+    <div class="dialog-content">
+        <button class="close-dialog">X</button>
+        <h3>Criar Nova Conta</h3>
+        <form id="register-form">
+            <input type="email" id="reg-email" placeholder="E-mail" required>
+            <input type="tel" id="reg-tel" placeholder="Telefone (DDD + número)" required>
+            <input type="number" id="reg-age" placeholder="Idade" required>
+            <input type="password" id="reg-pass" placeholder="Defina sua Senha" required>
+            <p style="font-size: 0.8rem; color: #bbb;">O avatar e nome de usuário serão gerados aleatoriamente.</p>
+            <button type="submit" class="btn-primary">Gerar Conta</button>
+        </form>
+    </div>
+</dialog>
+
+<dialog id="dialog-forgot">
+    <div class="dialog-content">
+        <button class="close-dialog">X</button>
+        <h3>Recuperar Acesso</h3>
+        <p>Insira seus dados para validar e alterar a senha.</p>
+        <form id="forgot-form">
+            <input type="email" id="forgot-email" placeholder="E-mail cadastrado" required>
+            <input type="tel" id="forgot-tel" placeholder="Telefone cadastrado" required>
+            <hr style="border: 0.5px solid #444;">
+            <input type="password" id="forgot-new-pass" placeholder="Nova Senha" required>
+            <button type="submit" class="btn-primary">Validar e Alterar</button>
+        </form>
+    </div>
+</dialog>
 
     <script src="assets/js/auth.js"></script>
 </body>
