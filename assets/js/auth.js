@@ -16,6 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentTempUser = "";
     let currentTempAvatar = "";
 
+    // Função Auxiliar para Formatar Data
+    function formatarData(dataRaw) {
+        if (!dataRaw) return "N/A";
+        // Tenta converter para data. Se já for string (ex: "12/04/2026"), vai dar "NaN" e cair no if abaixo
+        const d = new Date(dataRaw);
+        if (isNaN(d.getTime())) return dataRaw; 
+        
+        const dia = String(d.getUTCDate()).padStart(2, '0');
+        const mes = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const ano = d.getUTCFullYear();
+        return `${dia}/${mes}/${ano}`;
+    }
+
     function toggleLoading(show) {
         if (show) loadingOverlay.classList.remove('loading-hidden');
         else loadingOverlay.classList.add('loading-hidden');
@@ -123,7 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const user = JSON.parse(localStorage.getItem('lightsBlockerUser'));
         document.getElementById('dialog-profile-name').textContent = user.user;
         document.getElementById('dialog-profile-avatar').src = user.avatar;
-        document.getElementById('profile-since').textContent = user.data_criacao || "N/A";
+        // Tratamento da Data aplicado aqui:
+        document.getElementById('profile-since').textContent = formatarData(user.data_criacao);
         dialogProfile.showModal();
     });
 
