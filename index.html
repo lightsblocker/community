@@ -9,8 +9,8 @@
 </head>
 <body>
     <div id="loading-overlay" class="loading-hidden">
-    <img src="assets/logo.png" class="loader-logo" alt="Carregando...">
-</div>
+        <img src="assets/logo.png" class="loader-logo" alt="Carregando...">
+    </div>
 
     <header id="main-header">
         <div class="header-left">
@@ -43,7 +43,7 @@
         <section id="community-screen" class="view-section hidden">
             <div class="community-header">
                 <span id="welcome-text" class="welcome-text">Bem-vindo, Carregando...</span>
-                <div class="user-avatar-circle" id="my-profile-btn">
+                <div class="user-avatar-circle" id="my-profile-btn" style="cursor: pointer;">
                     <img src="" id="user-avatar-img" alt="Avatar">
                 </div>
             </div>
@@ -78,56 +78,58 @@
             <h3 id="dialog-post-title">Título</h3>
             <p id="dialog-post-meta">Por <span class="post-author">User</span> em <span id="dialog-post-date">00/00/0000 00:00</span></p>
             <p id="dialog-post-text">Texto completo do post...</p>
-            </div>
+        </div>
     </dialog>
 
     <dialog id="dialog-profile">
         <div class="dialog-content">
             <button class="close-dialog">X</button>
-            <img src="" id="dialog-profile-avatar" alt="Avatar">
+            <img src="" id="dialog-profile-avatar" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;">
             <h3 id="dialog-profile-name">Username</h3>
             <p id="dialog-profile-date">Aqui desde <span id="profile-since"></span></p>
-            <button id="btn-logout" class="btn-text" style="color: #f44336;">Sair</button>
+            <button id="btn-logout" class="btn-text" style="color: #f44336; margin-top: 15px;">Sair da Conta</button>
         </div>
     </dialog>
-    <dialog id="dialog-register">
-    <div class="dialog-content">
-        <button class="close-dialog">X</button>
-        <h3>Criar Conta</h3>
-        
-        <div style="text-align: center; margin-bottom: 15px;">
-            <img id="reg-avatar-preview" src="assets/default-avatar.png" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent-blue);">
-            <br>
-            <button type="button" id="btn-change-avatar" class="btn-text">Trocar Avatar</button>
-            <div id="reg-username-display" style="font-weight: bold; font-size: 1.2rem; margin-top: 10px;">Gerando...</div>
-            <button type="button" id="btn-change-user" class="btn-text">Trocar Nome</button>
-        </div>
 
-        <form id="register-form">
-            <input type="email" id="reg-email" placeholder="Seu E-mail" required>
-            <input type="tel" id="reg-tel" placeholder="Telefone" required>
-            <input type="number" id="reg-age" placeholder="Sua Idade" required>
-            <input type="password" id="reg-pass" placeholder="Sua Senha" required>
-            <button type="submit" class="btn-primary">Finalizar Cadastro</button>
-        </form>
-    </div>
-</dialog>
-<dialog id="dialog-forgot">
-    <div class="dialog-content">
-        <button class="close-dialog">X</button>
-        <h3>Recuperar Acesso</h3>
-        <p>Insira seus dados para validar e alterar a senha.</p>
-        <form id="forgot-form">
-            <input type="email" id="forgot-email" placeholder="E-mail cadastrado" required>
-            <input type="tel" id="forgot-tel" placeholder="Telefone cadastrado" required>
-            <hr style="border: 0.5px solid #444;">
-            <input type="password" id="forgot-new-pass" placeholder="Nova Senha" required>
-            <button type="submit" class="btn-primary">Validar e Alterar</button>
-        </form>
-    </div>
-</dialog>
+    <dialog id="dialog-register">
+        <div class="dialog-content">
+            <button class="close-dialog">X</button>
+            <h3>Criar Conta</h3>
+            
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img id="reg-avatar-preview" src="assets/default-avatar.png" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent-blue);">
+                <br>
+                <button type="button" id="btn-change-avatar" class="btn-text">Trocar Avatar</button>
+                <div id="reg-username-display" style="font-weight: bold; font-size: 1.2rem; margin-top: 10px;">Gerando...</div>
+                <button type="button" id="btn-change-user" class="btn-text">Trocar Nome</button>
+            </div>
+
+            <form id="register-form">
+                <input type="email" id="reg-email" placeholder="Seu E-mail" required>
+                <input type="tel" id="reg-tel" placeholder="Telefone" required>
+                <input type="number" id="reg-age" placeholder="Sua Idade" required>
+                <input type="password" id="reg-pass" placeholder="Sua Senha" required>
+                <button type="submit" class="btn-primary">Finalizar Cadastro</button>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="dialog-forgot">
+        <div class="dialog-content">
+            <button class="close-dialog">X</button>
+            <h3>Recuperar Acesso</h3>
+            <p style="margin-bottom: 15px; font-size: 0.9rem;">Insira seus dados para validar e alterar a senha.</p>
+            <form id="forgot-form">
+                <input type="email" id="forgot-email" placeholder="E-mail cadastrado" required>
+                <input type="tel" id="forgot-tel" placeholder="Telefone cadastrado" required>
+                <hr style="border: 0.5px solid #444; margin: 15px 0;">
+                <input type="password" id="forgot-new-pass" placeholder="Nova Senha" required>
+                <button type="submit" class="btn-primary">Validar e Alterar</button>
+            </form>
+        </div>
+    </dialog>
 
     <script src="assets/js/api.js"></script> 
-<script src="assets/js/auth.js"></script>
+    <script src="assets/js/auth.js"></script>
 </body>
 </html>
