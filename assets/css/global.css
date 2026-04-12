@@ -259,3 +259,47 @@ dialog::backdrop {
     font-weight: bold;
     cursor: pointer;
 }
+/* --- Overlay de Loading --- */
+#loading-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: opacity 0.3s;
+}
+
+.loading-hidden {
+    display: none !important;
+}
+
+.loader-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Estilo para o campo de username no registro */
+.username-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+#reg-username-display {
+    background: #444;
+    padding: 10px;
+    border-radius: 5px;
+    flex-grow: 1;
+    font-weight: bold;
+    text-align: center;
+}
