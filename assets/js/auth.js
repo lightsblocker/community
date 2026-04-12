@@ -6,6 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnLogout = document.getElementById('btn-logout');
     const dialogProfile = document.getElementById('dialog-profile');
     const myProfileBtn = document.getElementById('my-profile-btn');
+    const loadingOverlay = document.getElementById('loading-overlay');
+
+    // Funções Auxiliares
+    function toggleLoading(show) {
+        if (show) loadingOverlay.classList.remove('loading-hidden');
+        else loadingOverlay.classList.add('loading-hidden');
+    }
 
     // 1. Verifica Cache
     function checkAuth() {
@@ -27,13 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const credencialInput = document.getElementById('login-user').value;
         const senhaInput = document.getElementById('login-pass').value;
-        const submitBtn = e.target.querySelector('button[type="submit"]');
         
-        const textoOriginal = submitBtn.textContent;
-        submitBtn.textContent = 'Carregando...';
-        submitBtn.disabled = true;
+        toggleLoading(true);
 
         try {
+            // Verifica se a função existe antes de chamar
+            if (typeof callGAS === 'undefined') throw new Error("API não carregada");
+
             const resposta = await callGAS({
                 action: "login",
                 credencial: credencialInput,
@@ -46,65 +53,87 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('login-pass').value = '';
                 checkAuth();
             } else {
-                alert("Atenção: " + (resposta.erro || "Não foi possível fazer login."));
+                alert("Atenção: " + (resposta.erro || "Credenciais inválidas."));
             }
         } catch (error) {
-            alert("Erro de conexão. Verifique sua internet.");
+            console.error(error);
+            alert("Erro de conexão. Verifique se o api.js está carregado e se a URL do GAS está correta.");
         } finally {
-            submitBtn.textContent = textoOriginal;
-            submitBtn.disabled = false;
+            toggleLoading(false);
         }
     });
 
-    // --- NOVAS FUNÇÕES ADICIONADAS ---
+    // --- GERENCIAMENTO DE REGISTRO ---
+
+    let tempUsername = "";
+
+    async function atualizarSugestaoUsername() {
+        toggleLoading(true);
+        const res = await callGAS({ action: "gerarUsername" });
+        if (res.sucesso) {
+            tempUsername = res.user;
+            document.getElementById('reg-username-display').textContent = tempUsername;
+        }
+        toggleLoading(false);
+    }
 
     // Abrir Criar Conta
     document.getElementById('btn-create-account')?.addEventListener('click', () => {
         document.getElementById('dialog-register').showModal();
+        atualizarSugestaoUsername(); // Gera o primeiro nome
     });
 
-    // Lógica de Registro
+    // Botão Alterar Username dentro do modal
+    document.getElementById('btn-change-username')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        atualizarSugestaoUsername();
+    });
+
+    // Lógica de Registro Final
     document.getElementById('register-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        toggleLoading(true);
+
         const res = await callGAS({
             action: "registrar",
+            usernameManual: tempUsername, // Enviamos o nome que está na tela
             email: document.getElementById('reg-email').value,
             numero_telefone: document.getElementById('reg-tel').value,
             idade: document.getElementById('reg-age').value,
             senha: document.getElementById('reg-pass').value,
-            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=" + Math.random()
+            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${tempUsername}`
         });
         
+        toggleLoading(false);
         if(res.sucesso) {
-            alert("Conta criada! Seu usuário é: " + res.user);
+            alert("Conta criada com sucesso!");
             location.reload();
         } else { alert("Erro: " + res.erro); }
     });
+
+    // --- RECUPERAÇÃO E PERFIL ---
 
     // Abrir Esqueci Senha
     document.getElementById('btn-forgot-pass')?.addEventListener('click', () => {
         document.getElementById('dialog-forgot').showModal();
     });
 
-    // Lógica de Recuperação
     document.getElementById('forgot-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        toggleLoading(true);
         const res = await callGAS({
             action: "recuperarSenha",
             email: document.getElementById('forgot-email').value,
             telefone: document.getElementById('forgot-tel').value,
             novaSenha: document.getElementById('forgot-new-pass').value
         });
-        
+        toggleLoading(false);
         if(res.sucesso) {
             alert("Senha alterada com sucesso!");
             document.getElementById('dialog-forgot').close();
         } else { alert("Erro: " + res.erro); }
     });
 
-    // --- FIM DAS NOVAS FUNÇÕES ---
-
-    // 3. Abrir Perfil
     myProfileBtn.addEventListener('click', () => {
         const user = JSON.parse(localStorage.getItem('lightsBlockerUser'));
         document.getElementById('dialog-profile-name').textContent = user.user;
@@ -113,14 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
         dialogProfile.showModal();
     });
 
-    // 4. Fechar Modais
     document.querySelectorAll('.close-dialog').forEach(btn => {
         btn.addEventListener('click', function() {
             this.closest('dialog').close();
         });
     });
 
-    // 5. Sair
     btnLogout.addEventListener('click', () => {
         localStorage.removeItem('lightsBlockerUser');
         dialogProfile.close();
