@@ -82,14 +82,18 @@
     </dialog>
 
     <dialog id="dialog-profile">
-        <div class="dialog-content">
-            <button class="close-dialog">X</button>
-            <img src="" id="dialog-profile-avatar" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;">
-            <h3 id="dialog-profile-name">Username</h3>
-            <p id="dialog-profile-date">Aqui desde <span id="profile-since"></span></p>
-            <button id="btn-logout" class="btn-text" style="color: #f44336; margin-top: 15px;">Sair da Conta</button>
+    <div class="dialog-content">
+        <button class="close-dialog">X</button>
+        <div style="text-align: center;">
+            <img src="" id="dialog-profile-avatar" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%;">
+            <br>
+            <button id="btn-edit-profile-avatar" class="btn-text">Trocar Avatar</button>
         </div>
-    </dialog>
+        <h3 id="dialog-profile-name">Username</h3>
+        <p>Aqui desde <span id="profile-since"></span></p>
+        <button id="btn-logout" class="btn-text" style="color: #f44336;">Sair da Conta</button>
+    </div>
+</dialog>
 
     <dialog id="dialog-register">
         <div class="dialog-content">
