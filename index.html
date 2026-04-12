@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LightsBlocker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/global.css">
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="header-left">
+            <img src="assets/logo.png" alt="Logo" class="logo">
+            <span class="brand-name"><b>Lights</b>Blocker</span>
+        </div>
+        <div class="header-right">
+            <div class="icon-circle">!</div>
+            <div class="icon-circle">↓</div>
+            <div class="icon-circle">👥</div>
+            <div class="icon-circle">📰</div>
+        </div>
+    </header>
+
+    <main id="main-container">
+        
+        <section id="login-screen" class="view-section">
+            <h2>Acesse sua conta</h2>
+            <form id="login-form">
+                <input type="text" id="login-user" placeholder="E-mail ou Telefone" required>
+                <input type="password" id="login-pass" placeholder="Senha" required>
+                <button type="submit" class="btn-primary">Entrar</button>
+            </form>
+            <div class="login-links">
+                <button id="btn-forgot-pass" class="btn-text">Esqueci a senha</button>
+                <button id="btn-create-account" class="btn-text">Criar conta</button>
+            </div>
+        </section>
+
+        <section id="community-screen" class="view-section hidden">
+            <div class="community-header">
+                <span id="welcome-text" class="welcome-text">Bem-vindo, Carregando...</span>
+                <div class="user-avatar-circle" id="my-profile-btn">
+                    <img src="" id="user-avatar-img" alt="Avatar">
+                </div>
+            </div>
+
+            <div id="feed-container">
+                <article class="post-card">
+                    <div class="post-header">
+                        <span class="post-title">Título do Post</span> <span class="bullet">•</span> <span class="post-author">PandaFofo123</span>
+                    </div>
+                    <div class="post-body">
+                        Este é um exemplo de texto que será cortado se for muito grande. O usuário vai poder ler tudo ao clicar no post e abrir a janela...
+                    </div>
+                    <div class="post-footer">
+                        <div class="vote-group">
+                            <div class="triangle-up"></div>
+                            <span class="vote-count up">12</span>
+                        </div>
+                        <div class="vote-group">
+                            <div class="triangle-down"></div>
+                            <span class="vote-count down">3</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <dialog id="dialog-post">
+        <div class="dialog-content">
+            <button class="close-dialog">X</button>
+            <h3 id="dialog-post-title">Título</h3>
+            <p id="dialog-post-meta">Por <span class="post-author">User</span> em <span id="dialog-post-date">00/00/0000 00:00</span></p>
+            <p id="dialog-post-text">Texto completo do post...</p>
+            </div>
+    </dialog>
+
+    <dialog id="dialog-profile">
+        <div class="dialog-content">
+            <button class="close-dialog">X</button>
+            <img src="" id="dialog-profile-avatar" alt="Avatar">
+            <h3 id="dialog-profile-name">Username</h3>
+            <p id="dialog-profile-date">Aqui desde <span id="profile-since"></span></p>
+            <button id="btn-logout" class="btn-text" style="color: #f44336;">Sair</button>
+        </div>
+    </dialog>
+
+    <script src="assets/js/auth.js"></script>
+</body>
+</html>
