@@ -29,15 +29,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${dia}/${mes}/${ano}`;
     }
 
-    function toggleLoading(show) {
+  function toggleLoading(show) {
     const loadingOverlay = document.getElementById('loading-overlay');
+    if (!loadingOverlay) return;
+
     if (show) {
-        // Move o loading para o último item do body antes de mostrar
-        // Isso força ele a ficar no topo da árvore de renderização
-        document.body.appendChild(loadingOverlay); 
-        loadingOverlay.classList.remove('loading-hidden');
+        // Se já estiver aberto, não faz nada, se não, abre como Modal
+        if (!loadingOverlay.open) {
+            loadingOverlay.showModal();
+        }
     } else {
-        loadingOverlay.classList.add('loading-hidden');
+        // Fecha o dialog de loading
+        if (loadingOverlay.open) {
+            loadingOverlay.close();
+        }
     }
 }
 
