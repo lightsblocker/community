@@ -1,18 +1,104 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Seleção de elementos
+    const loadingOverlay = document.getElementById('loading-overlay');
     const loginScreen = document.getElementById('login-screen');
     const communityScreen = document.getElementById('community-screen');
     const welcomeText = document.getElementById('welcome-text');
     const avatarImg = document.getElementById('user-avatar-img');
-    const btnLogout = document.getElementById('btn-logout');
-    const dialogProfile = document.getElementById('dialog-profile');
-    const myProfileBtn = document.getElementById('my-profile-btn');
-    const loadingOverlay = document.getElementById('loading-overlay');
+    const dialogRegister = document.getElementById('dialog-register');
+    const regUserDisplay = document.getElementById('reg-username-display');
+    const regAvatarDisplay = document.getElementById('reg-avatar-preview');
 
-    // Funções Auxiliares
+    let currentTempUser = "";
+    let currentTempAvatar = "";
+
     function toggleLoading(show) {
         if (show) loadingOverlay.classList.remove('loading-hidden');
         else loadingOverlay.classList.add('loading-hidden');
     }
+
+    // 1. Geradores de dados para Criação de Conta
+    async function gerarDadosIniciais() {
+        toggleLoading(true);
+        const resUser = await callGAS({ action: "gerarUsername" });
+        const resAvatar = await callGAS({ action: "getAvatarAleatorio" });
+        
+        if (resUser.sucesso) {
+            currentTempUser = resUser.user;
+            regUserDisplay.textContent = currentTempUser;
+        }
+        if (resAvatar.sucesso) {
+            currentTempAvatar = resAvatar.url;
+            regAvatarDisplay.src = currentTempAvatar;
+        }
+        toggleLoading(false);
+    }
+
+    // Abrir Modal de Registro
+    document.getElementById('btn-create-account')?.addEventListener('click', () => {
+        dialogRegister.showModal();
+        gerarDadosIniciais();
+    });
+
+    // Botões de "Alterar" no Registro
+    document.getElementById('btn-change-user')?.addEventListener('click', async () => {
+        toggleLoading(true);
+        const res = await callGAS({ action: "gerarUsername" });
+        if(res.sucesso) regUserDisplay.textContent = currentTempUser = res.user;
+        toggleLoading(false);
+    });
+
+    document.getElementById('btn-change-avatar')?.addEventListener('click', async () => {
+        toggleLoading(true);
+        const res = await callGAS({ action: "getAvatarAleatorio" });
+        if(res.sucesso) regAvatarDisplay.src = currentTempAvatar = res.url;
+        toggleLoading(false);
+    });
+
+    // 2. Lógica de Registro Final
+    document.getElementById('register-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        toggleLoading(true);
+        const res = await callGAS({
+            action: "registrar",
+            email: document.getElementById('reg-email').value,
+            numero_telefone: document.getElementById('reg-tel').value,
+            idade: document.getElementById('reg-age').value,
+            senha: document.getElementById('reg-pass').value,
+            user: currentTempUser, // O nome que o usuário viu
+            avatar: currentTempAvatar // O avatar que o usuário viu
+        });
+        toggleLoading(false);
+        if(res.sucesso) {
+            alert("Conta criada!");
+            location.reload();
+        } else { alert("Erro: " + res.erro); }
+    });
+
+    // 3. Alterar Avatar no Perfil (Depois de logado)
+    document.getElementById('btn-edit-profile-avatar')?.addEventListener('click', async () => {
+        toggleLoading(true);
+        const resAvatar = await callGAS({ action: "getAvatarAleatorio" });
+        if (resAvatar.sucesso) {
+            const user = JSON.parse(localStorage.getItem('lightsBlockerUser'));
+            const resUpdate = await callGAS({
+                action: "atualizarAvatar",
+                user: user.user,
+                novoAvatar: resAvatar.url
+            });
+            if (resUpdate.sucesso) {
+                user.avatar = resAvatar.url;
+                localStorage.setItem('lightsBlockerUser', JSON.stringify(user));
+                document.getElementById('dialog-profile-avatar').src = resAvatar.url;
+                avatarImg.src = resAvatar.url;
+            }
+        }
+        toggleLoading(false);
+    });
+
+    // ... Manter funções de checkAuth, Login e Logout ...
+    checkAuth();
+});
 
     // 1. Verifica Cache
     function checkAuth() {
