@@ -22,17 +22,48 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 2. Simulação de Login (Aqui você conectará com seu Apps Script depois)
-    document.getElementById('login-form').addEventListener('submit', (e) => {
+    // 2. Lógica de Login REAL conectada ao banco de dados (Apps Script)
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        // Exemplo de como salvar no cache após o Apps Script retornar sucesso:
-        const mockUser = {
-            user: "PandaFofo123",
-            avatar: "https://via.placeholder.com/150",
-            data_criacao: "12/04/2026"
-        };
-        localStorage.setItem('lightsBlockerUser', JSON.stringify(mockUser));
-        checkAuth();
+        
+        const credencialInput = document.getElementById('login-user').value;
+        const senhaInput = document.getElementById('login-pass').value;
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        
+        // Feedback visual de carregamento
+        const textoOriginal = submitBtn.textContent;
+        submitBtn.textContent = 'Carregando...';
+        submitBtn.disabled = true;
+
+        try {
+            // Chama a função genérica que está no api.js
+            const resposta = await callGAS({
+                action: "login",
+                credencial: credencialInput,
+                senha: senhaInput
+            });
+
+            if (resposta.sucesso) {
+                // Salva os dados retornados da planilha no cache
+                localStorage.setItem('lightsBlockerUser', JSON.stringify(resposta.dados));
+                
+                // Limpa os campos após o sucesso
+                document.getElementById('login-user').value = '';
+                document.getElementById('login-pass').value = '';
+                
+                // Atualiza a tela
+                checkAuth();
+            } else {
+                alert("Atenção: " + (resposta.erro || "Não foi possível fazer login."));
+            }
+        } catch (error) {
+            console.error("Erro na tentativa de login:", error);
+            alert("Erro de conexão. Verifique sua internet ou tente novamente mais tarde.");
+        } finally {
+            // Restaura o botão independente de sucesso ou erro
+            submitBtn.textContent = textoOriginal;
+            submitBtn.disabled = false;
+        }
     });
 
     // 3. Abrir Perfil
