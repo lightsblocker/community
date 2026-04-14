@@ -51,6 +51,19 @@
             </div>
 
             <div id="feed-container">
+                <button id="btn-open-new-post" class="fab-button">+</button>
+
+    <dialog id="dialog-new-post">
+        <div class="dialog-content">
+            <button class="close-dialog">X</button>
+            <h3>Novo Post</h3>
+            <form id="form-new-post">
+                <input type="text" id="post-title" placeholder="Título do post" required>
+                <textarea id="post-content" placeholder="O que você está pensando?" rows="5" required style="width:100%; background:#3d3d3d; color:white; border:none; border-radius:5px; padding:10px; margin-bottom:10px;"></textarea>
+                <button type="submit" class="btn-primary">Publicar</button>
+            </form>
+        </div>
+    </dialog>
                 <article class="post-card">
                     <div class="post-header">
                         <span class="post-title">Título do Post</span> <span class="bullet">•</span> <span class="post-author">PandaFofo123</span>
