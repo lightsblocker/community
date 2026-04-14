@@ -335,3 +335,67 @@ dialog::backdrop {
 #community-screen.hidden .fab-button {
     display: none;
 }
+/* Estilo para Triângulos de Voto Clicáveis */
+.vote-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+.vote-group:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Design interno do Post no Dialog */
+.post-meta-detail {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #bbb;
+    margin-top: 5px;
+}
+.post-text-detail {
+    font-size: 1.05rem;
+    margin: 20px 0;
+    line-height: 1.5;
+    color: #eee;
+}
+
+/* Scroll View de Comentários */
+.comments-container {
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+.comment-item {
+    font-size: 0.85rem;
+    border-bottom: 1px solid #444;
+    padding: 8px 0;
+}
+.comment-user {
+    color: var(--accent-blue);
+    font-weight: bold;
+}
+.comment-input-group {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+/* Estilo textarea no Novo Post */
+#form-new-post textarea {
+    width: 100%;
+    background: #3d3d3d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: none;
+}
