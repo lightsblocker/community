@@ -18,6 +18,7 @@ function renderizarPosts(posts) {
         article.innerHTML = `
             <div class="post-header">
                 <span class="post-title">${post.titulo || 'Sem título'}</span> 
+                <span class="post-category-badge" style="font-size: 0.65rem; background: #444; padding: 2px 6px; border-radius: 10px; margin-left: 8px; color: #eee; vertical-align: middle;">${post.categoria || 'Geral'}</span>
                 <span class="bullet">•</span> 
                 <span class="post-author" data-user="${post.user}" style="color: var(--accent-blue); cursor: pointer; font-weight: bold;">${post.user}</span>
             </div>
@@ -34,13 +35,11 @@ function renderizarPosts(posts) {
             </div>
         `;
 
-        // Clique no Nome do Usuário -> Abre Perfil
         article.querySelector('.post-author').addEventListener('click', (e) => {
             e.stopPropagation();
             abrirPerfilUsuario(post.user);
         });
 
-        // Clique no Voto (Up/Down)
         article.querySelectorAll('.vote-group').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
@@ -51,7 +50,6 @@ function renderizarPosts(posts) {
             });
         });
 
-        // Clique no corpo do card -> Abre Post
         article.querySelector('.post-body').addEventListener('click', () => {
             abrirPostDetalhado(post);
         });
@@ -60,20 +58,32 @@ function renderizarPosts(posts) {
     });
 }
 
-// Abre o Post Detalhado com Comentários
+// Busca categorias e preenche o select
+async function carregarCategorias() {
+    const res = await callGAS({ action: "getCategorias" });
+    const select = document.getElementById('post-category');
+    if (res.sucesso && select) {
+        select.innerHTML = '';
+        res.categorias.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            select.appendChild(opt);
+        });
+    }
+}
+
 async function abrirPostDetalhado(post) {
     document.getElementById('dialog-post-title').textContent = post.titulo;
     document.getElementById('dialog-post-text').textContent = post.texto;
-    document.getElementById('dialog-post-meta').innerHTML = `Por <i>${post.user}</i> em ${post.data} ${post.hora}`;
+    document.getElementById('dialog-post-meta').innerHTML = `Em <b>${post.categoria}</b> • Por <i>${post.user}</i> em ${post.data} ${post.hora}`;
     document.getElementById('comment-post-code').value = post.code;
     
-    // Limpa comentários anteriores e mostra loading
     const commentsDiv = document.getElementById('comments-scroll-view');
     commentsDiv.innerHTML = '<p style="font-size:0.8rem;">Carregando comentários...</p>';
     
     document.getElementById('dialog-post').showModal();
 
-    // Busca comentários reais
     const res = await callGAS({ action: "getComments", postCode: post.code });
     if (res.sucesso) {
         commentsDiv.innerHTML = res.comments.length ? '' : '<p style="font-size:0.8rem; color:#888;">Nenhum comentário ainda.</p>';
@@ -89,12 +99,10 @@ async function abrirPostDetalhado(post) {
     }
 }
 
-// Gerencia Perfil (Próprio vs Alheio)
 async function abrirPerfilUsuario(username) {
     const userLocal = JSON.parse(localStorage.getItem('lightsBlockerUser'));
     const isMe = userLocal && userLocal.user === username;
 
-    // Busca dados do usuário via GAS para garantir o avatar e data corretos
     if (window.toggleLoading) window.toggleLoading(true);
     const res = await callGAS({ action: "buscarPerfilPublico", user: username });
     if (window.toggleLoading) window.toggleLoading(false);
@@ -104,7 +112,7 @@ async function abrirPerfilUsuario(username) {
         document.getElementById('dialog-profile-name').textContent = res.dados.user;
         document.getElementById('profile-since').textContent = res.dados.data_criacao;
 
-        // Controle de permissão
+        // Controle de permissão: Esconde botões se não for o dono do perfil
         document.getElementById('profile-edit-zone').style.display = isMe ? 'block' : 'none';
         document.getElementById('profile-logout-zone').style.display = isMe ? 'block' : 'none';
 
@@ -112,7 +120,6 @@ async function abrirPerfilUsuario(username) {
     }
 }
 
-// Envio de Comentário
 document.getElementById('form-comment')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const userLocal = JSON.parse(localStorage.getItem('lightsBlockerUser'));
@@ -128,13 +135,16 @@ document.getElementById('form-comment')?.addEventListener('submit', async (e) =>
     const res = await callGAS(dados);
     if (res.sucesso) {
         document.getElementById('comment-text').value = '';
-        // Atualiza a vista do post para mostrar o novo comentário
-        const postAtual = { code: dados.postCode, titulo: document.getElementById('dialog-post-title').textContent, texto: document.getElementById('dialog-post-text').textContent, user: '...', data: '...' };
+        const postAtual = { 
+            code: dados.postCode, 
+            titulo: document.getElementById('dialog-post-title').textContent, 
+            texto: document.getElementById('dialog-post-text').textContent, 
+            categoria: '', user: '', data: '' 
+        };
         abrirPostDetalhado(postAtual); 
     }
 });
 
-// Funções de Carga Existentes
 async function carregarPosts() {
     if (!document.getElementById('login-screen').classList.contains('hidden')) return;
     const res = await callGAS({ action: "getPosts" });
@@ -142,6 +152,7 @@ async function carregarPosts() {
 }
 
 document.getElementById('btn-open-new-post')?.addEventListener('click', () => {
+    carregarCategorias(); // Carrega as categorias antes de abrir
     document.getElementById('dialog-new-post').showModal();
 });
 
@@ -155,7 +166,7 @@ document.getElementById('form-new-post')?.addEventListener('submit', async (e) =
         user: userLocal.user,
         data: new Date().toLocaleDateString('pt-BR'),
         hora: new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}),
-        categoria: "Geral"
+        categoria: document.getElementById('post-category').value // Pega do dropdown
     };
     const res = await callGAS(dados);
     if (res.sucesso) {
