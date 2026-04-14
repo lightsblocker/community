@@ -399,3 +399,57 @@ dialog::backdrop {
     margin-bottom: 10px;
     resize: none;
 }
+/* Grupo de input de comentário ajustado */
+#form-comment {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#comment-text {
+    flex-grow: 1;
+    margin-bottom: 0; /* Remove a margem padrão para alinhar com o botão */
+}
+
+/* Botão Enviar Circular */
+#form-comment .btn-primary {
+    width: 45px;
+    height: 45px;
+    min-width: 45px; /* Garante que não amasse */
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Oculta o texto "Enviar" se você o tiver no HTML, 
+   ou apenas use o caractere no JS/HTML */
+/* --- Ajustes Mobile --- */
+@media (max-width: 480px) {
+    #main-header {
+        padding: 10px 10px;
+    }
+
+    .brand-name {
+        font-size: 1rem; /* Reduz um pouco o nome da marca */
+    }
+
+    .header-right {
+        gap: 5px; /* Diminui o espaço entre os círculos */
+    }
+
+    .icon-circle {
+        width: 32px; /* Reduz o círculo de 42px para 32px */
+        height: 32px;
+    }
+
+    .icon-circle img {
+        width: 16px; /* Reduz o ícone interno de 24px para 16px */
+        height: 16px;
+    }
+}
