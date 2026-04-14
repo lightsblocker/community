@@ -9,9 +9,9 @@
 </head>
 <body>
     <dialog id="loading-overlay">
-    <div class="loader-content">
-        <img src="assets/logo.png" class="loader-logo">
-    </div>    
+        <div class="loader-content">
+            <img src="assets/logo.png" class="loader-logo">
+        </div>    
     </dialog>
 
     <header id="main-header">
@@ -28,7 +28,6 @@
     </header>
 
     <main id="main-container">
-        
         <section id="login-screen" class="view-section">
             <h2>Acesse sua conta</h2>
             <form id="login-form">
@@ -50,8 +49,10 @@
                 </div>
             </div>
 
-            <div id="feed-container">
-                <button id="btn-open-new-post" class="fab-button">+</button>
+            <div id="feed-container"></div>
+            <button id="btn-open-new-post" class="fab-button">+</button>
+        </section>
+    </main>
 
     <dialog id="dialog-new-post">
         <div class="dialog-content">
@@ -59,94 +60,50 @@
             <h3>Novo Post</h3>
             <form id="form-new-post">
                 <input type="text" id="post-title" placeholder="Título do post" required>
-                <textarea id="post-content" placeholder="O que você está pensando?" rows="5" required style="width:100%; background:#3d3d3d; color:white; border:none; border-radius:5px; padding:10px; margin-bottom:10px;"></textarea>
+                <textarea id="post-content" placeholder="O que você está pensando?" rows="5" required></textarea>
                 <button type="submit" class="btn-primary">Publicar</button>
             </form>
         </div>
     </dialog>
-                <article class="post-card">
-                    <div class="post-header">
-                        <span class="post-title">Título do Post</span> <span class="bullet">•</span> <span class="post-author">PandaFofo123</span>
-                    </div>
-                    <div class="post-body">
-                        Este é um exemplo de texto que será cortado se for muito grande. O usuário vai poder ler tudo ao clicar no post e abrir a janela...
-                    </div>
-                    <div class="post-footer">
-                        <div class="vote-group">
-                            <div class="triangle-up"></div>
-                            <span class="vote-count up">12</span>
-                        </div>
-                        <div class="vote-group">
-                            <div class="triangle-down"></div>
-                            <span class="vote-count down">3</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-    </main>
 
     <dialog id="dialog-post">
         <div class="dialog-content">
             <button class="close-dialog">X</button>
             <h3 id="dialog-post-title">Título</h3>
-            <p id="dialog-post-meta">Por <span class="post-author">User</span> em <span id="dialog-post-date">00/00/0000 00:00</span></p>
-            <p id="dialog-post-text">Texto completo do post...</p>
+            <p id="dialog-post-meta" class="post-meta-detail"></p>
+            <p id="dialog-post-text" class="post-text-detail"></p>
+            
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            
+            <h4>Comentários</h4>
+            <div id="comments-scroll-view" class="comments-container">
+                </div>
+
+            <form id="form-comment" class="comment-input-group">
+                <input type="text" id="comment-text" placeholder="Escreva um comentário..." required>
+                <button type="submit" class="btn-primary" style="width: auto; padding: 5px 15px;">Enviar</button>
+            </form>
         </div>
     </dialog>
 
     <dialog id="dialog-profile">
-    <div class="dialog-content">
-        <button class="close-dialog">X</button>
-        <div style="text-align: center;">
-            <img src="" id="dialog-profile-avatar" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%;">
-            <br>
-            <button id="btn-edit-profile-avatar" class="btn-text">Trocar Avatar</button>
-        </div>
-        <h3 id="dialog-profile-name">Username</h3>
-        <p>Aqui desde <span id="profile-since"></span></p>
-        <button id="btn-logout" class="btn-text" style="color: #f44336;">Sair da Conta</button>
-    </div>
-</dialog>
-
-    <dialog id="dialog-register">
         <div class="dialog-content">
             <button class="close-dialog">X</button>
-            <h3>Criar Conta</h3>
-            
-            <div style="text-align: center; margin-bottom: 15px;">
-                <img id="reg-avatar-preview" src="assets/default-avatar.png" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent-blue);">
+            <div style="text-align: center;">
+                <img src="" id="dialog-profile-avatar" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%;">
                 <br>
-                <button type="button" id="btn-change-avatar" class="btn-text">Trocar Avatar</button>
-                <div id="reg-username-display" style="font-weight: bold; font-size: 1.2rem; margin-top: 10px;">Gerando...</div>
-                <button type="button" id="btn-change-user" class="btn-text">Trocar Nome</button>
+                <div id="profile-edit-controls">
+                    <button id="btn-edit-profile-avatar" class="btn-text">Trocar Avatar</button>
+                </div>
             </div>
-
-            <form id="register-form">
-                <input type="email" id="reg-email" placeholder="Seu E-mail" required>
-                <input type="tel" id="reg-tel" placeholder="Telefone" required>
-                <input type="number" id="reg-age" placeholder="Sua Idade" required>
-                <input type="password" id="reg-pass" placeholder="Sua Senha" required>
-                <button type="submit" class="btn-primary">Finalizar Cadastro</button>
-            </form>
+            <h3 id="dialog-profile-name">Username</h3>
+            <p>Aqui desde <span id="profile-since"></span></p>
+            <button id="btn-logout" class="btn-text btn-only-owner" style="color: #f44336;">Sair da Conta</button>
         </div>
     </dialog>
 
-    <dialog id="dialog-forgot">
-        <div class="dialog-content">
-            <button class="close-dialog">X</button>
-            <h3>Recuperar Acesso</h3>
-            <p style="margin-bottom: 15px; font-size: 0.9rem;">Insira seus dados para validar e alterar a senha.</p>
-            <form id="forgot-form">
-                <input type="email" id="forgot-email" placeholder="E-mail cadastrado" required>
-                <input type="tel" id="forgot-tel" placeholder="Telefone cadastrado" required>
-                <hr style="border: 0.5px solid #444; margin: 15px 0;">
-                <input type="password" id="forgot-new-pass" placeholder="Nova Senha" required>
-                <button type="submit" class="btn-primary">Validar e Alterar</button>
-            </form>
-        </div>
-    </dialog>
+    <dialog id="dialog-register">...</dialog>
+    <dialog id="dialog-forgot">...</dialog>
 
     <script src="assets/js/api.js"></script> 
     <script src="assets/js/auth.js"></script>
