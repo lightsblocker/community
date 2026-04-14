@@ -121,6 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
             communityScreen.classList.remove('hidden');
             welcomeText.textContent = `Bem-vindo, ${u.user}`;
             avatarImg.src = u.avatar || 'assets/default-avatar.png';
+            
+            // GATILHO ADICIONADO AQUI: Força o carregamento dos posts da comunidade
+            if (window.carregarPosts) {
+                window.carregarPosts();
+            }
         }
     }
 
