@@ -6,6 +6,8 @@
     <title>LightsBlocker</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/pages/feedback/feedback.css">
+<link rel="stylesheet" href="assets/pages/download/download.css">
 </head>
 <body>
     <dialog id="loading-overlay">
@@ -50,6 +52,61 @@
             </div>
             <div id="feed-container"></div>
             <button id="btn-open-new-post" class="fab-button">+</button>
+        </section>
+        <section id="feedback-screen" class="view-section hidden">
+            <h2 style="margin-bottom: 15px;">Enviar Feedback</h2>
+            <form id="form-feedback">
+                <input type="text" id="fb-user" readonly title="Usuário">
+                <input type="text" id="fb-email" readonly title="E-mail">
+                <input type="text" id="fb-tel" readonly title="Telefone">
+                <input type="text" id="fb-data" readonly title="Data e Hora">
+                
+                <input type="text" id="fb-app-version" placeholder="Versão do App (Ex: 1.0.2)" required>
+                <input type="text" id="fb-android-version" placeholder="Versão do Android (Ex: 13)" required>
+                <input type="text" id="fb-device" placeholder="Modelo do Aparelho (Ex: Samsung Galaxy S21)" required>
+                
+                <textarea id="fb-text" placeholder="Escreva detalhadamente sobre o erro, sugestão ou elogios..." rows="6" required style="width: 100%; background: #3d3d3d; color: white; border: none; border-radius: 5px; padding: 10px; margin-bottom: 10px; resize: vertical;"></textarea>
+                
+                <input type="url" id="fb-links" placeholder="Links de imagens ou vídeos (Opcional)">
+                
+                <button type="submit" class="btn-primary">Enviar Feedback</button>
+            </form>
+        </section>
+
+        <section id="download-screen" class="view-section hidden">
+            <div class="app-store-header">
+                <div class="app-icon">
+                    <img src="assets/logo.png" alt="LightsBlocker Logo">
+                </div>
+                <div class="app-title-group">
+                    <h2><b>Lights</b>Blocker</h2>
+                    <p><i>Por LightsBlocker Oficial</i></p>
+                </div>
+            </div>
+            
+            <button id="btn-pre-download" class="btn-primary" style="margin: 20px 0;">Download</button>
+            
+            <p class="app-description">
+                Proteja seus olhos da luz azul e recupere o controle sobre o seu ciclo de sono. 
+                O LightsBlocker aplica um filtro inteligente na sua tela, oferecendo conforto visual e bem-estar durante o uso noturno do seu aparelho.
+            </p>
+
+            <div class="screenshot-carousel">
+                <img src="#" alt="Print 1">
+                <img src="#" alt="Print 2">
+                <img src="#" alt="Print 3">
+            </div>
+        </section>
+
+        <section id="privacy-screen" class="view-section hidden">
+            <h2>Termos e Política de Privacidade</h2>
+            <div class="privacy-content">
+                <p>Bem-vindo ao LightsBlocker.</p>
+                <p>Ao utilizar nosso aplicativo, você concorda que o LightsBlocker atue sobre a sua tela para aplicar filtros de luz. Não coletamos dados da sua tela, senhas ou informações bancárias. O aplicativo necessita de permissão de sobreposição de tela exclusivamente para o funcionamento do filtro.</p>
+                <p>Os dados de conta criados na comunidade são armazenados de forma segura e não são compartilhados com terceiros.</p>
+                </div>
+            <button id="btn-accept-download" class="btn-primary" style="background-color: var(--upvote-green); margin-top: 20px;">Li e concordo. Desejo baixar</button>
+            <button id="btn-cancel-download" class="btn-text" style="width: 100%; text-align: center;">Cancelar</button>
         </section>
     </main>
 
@@ -143,5 +200,8 @@
     <script src="assets/js/api.js"></script> 
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/community.js"></script>
+    <script src="assets/pages/navigation.js"></script>
+    <script src="assets/pages/feedback/feedback.js"></script>
+<script src="assets/pages/download/download.js"></script>
 </body>
 </html>
