@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbzoPnW7gUxpZAPe2RYPYh-SaxXWPMcURuBx9bUmnwNOXUUuChMm8Qmy3WMuSS57RD5CNA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw2BCBETSVXV4H14hoC3-hAoyTQFfhIgLyLBntgstgy3V42UcwRcBMy7azFJESMbz_3Uw/exec";
 
 async function callGAS(data) {
     try {
