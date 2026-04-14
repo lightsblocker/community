@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // --- LÓGICA DE LINK DIRETO ---
+const urlParams = new URLSearchParams(window.location.search);
+const page = urlParams.get('page');
+
+if (page === 'feedback') {
+    showView('feedback');
+    if (window.preencherDadosFeedback) window.preencherDadosFeedback();
+} else if (page === 'download') {
+    showView('download');
+}
+// Se não houver parâmetro, ele segue o fluxo normal (mostra login ou comunidade)
     const views = {
         community: document.getElementById('community-screen'),
         feedback: document.getElementById('feedback-screen'),
