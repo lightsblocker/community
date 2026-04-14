@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const LINK_DO_APK = "https://github.com/lightsblocker/community/raw/5a6f70898f287d9940f8221b4714a3875143814d/assets/pages/download/LightsBlocker.apk"; // Insira seu link direto aqui
+    const LINK_DO_APK = "https://lightsblocker.github.io/community/assets/pages/download/LightsBlocker.apk"; // Insira seu link direto aqui
 
     // Abre a tela de privacidade
     document.getElementById('btn-pre-download')?.addEventListener('click', () => {
