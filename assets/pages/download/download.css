@@ -1,0 +1,85 @@
+/* Cabeçalho da loja */
+.app-store-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.app-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: black;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.app-icon img {
+    width: 60%; /* Ajuste para o logo caber bem dentro do círculo */
+    height: auto;
+}
+
+.app-title-group h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 400; /* Blocker normal */
+}
+
+.app-title-group b {
+    font-weight: 700; /* Lights negrito */
+}
+
+.app-title-group p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.app-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: #eee;
+}
+
+/* Carrossel de imagens */
+.screenshot-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 10px; /* Espaço para a barra de rolagem */
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue) var(--container-bg);
+}
+
+.screenshot-carousel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.screenshot-carousel::-webkit-scrollbar-thumb {
+    background-color: var(--accent-blue);
+    border-radius: 4px;
+}
+
+.screenshot-carousel img {
+    height: 350px;
+    width: auto;
+    border-radius: 10px;
+    border: 1px solid #444;
+    object-fit: cover;
+}
+
+/* Privacidade */
+.privacy-content {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
