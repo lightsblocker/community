@@ -205,14 +205,19 @@ Diferente de outros bloqueadores que são facilmente burlados, o LightsBlocker f
                 <img src="" id="dialog-profile-avatar" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent-blue);">
                 <br>
                 <div id="profile-edit-zone">
-                     <div id="container-recado">
-        <p style="text-align: center;font-style: bold;">Recado:</p>
-        <p id="display-recado" style=text-align: center;font-style: italic;"></p>
-        <textarea id="edit-recado" class="hidden" placeholder="Escreva um recado..."></textarea>
-        <button id="btn-edit-recado" class="hidden">Editar Recado</button>
-        <button id="btn-save-recado" class="hidden">Salvar</button>
-    </div>
                     <button id="btn-edit-profile-avatar" class="btn-text">Trocar Avatar</button>
+                    <div id="container-recado" style="margin-top: 15px; background: #222; padding: 10px; border-radius: 8px;">
+    <p style="text-align: center; font-weight: bold; margin-bottom: 5px; color: var(--accent-blue);">Recado:</p>
+    
+    <p id="display-recado" style="text-align: center; font-style: italic; color: #eee; min-height: 20px;"></p>
+    
+    <textarea id="edit-recado" class="hidden" placeholder="Escreva um recado..." style="width: 100%; background: #333; color: white; border: 1px solid #555; border-radius: 5px; padding: 5px; margin-top: 5px; resize: none;"></textarea>
+    
+    <div style="text-align: center; margin-top: 10px;">
+        <button id="btn-edit-recado" class="btn-text" style="font-size: 0.8rem;">Editar Recado</button>
+        <button id="btn-save-recado" class="btn-primary hidden" style="padding: 5px 15px; font-size: 0.8rem;">Salvar</button>
+    </div>
+</div>
                 </div>
             </div>
             <h3 id="dialog-profile-name" style="text-align: center; margin-top: 10px;">Username</h3>
