@@ -1,6 +1,6 @@
 <h1><b>FAQ LIGHTSBLOCKER</b></h1>
 <i>Por LightsBlocker Oficial * 14/04/2026</i> <br> <br>
-<inframe img = "assets/pages/blog/posts/img/img1.png"></inframe>
+<inframe img="assets/pages/blog/posts/img/img1.png"></inframe>
 <p> Olá rapazes! Espero que estejam bem! Como sabem, nosso App ainda não foi lançado na data de hoje, mas estou ansioso para publicar o mais rápido possível, e eu espero de verdade que todos aproveitem ao máximo as funcionalidades do app durante a batalha. <br><br>
 Mas, sem mais delongas, vamos ao nosso FAQ do lightsBlocker. <br><br>
 <b>  O app será lançado na playstore?:</b> Até o momento não temos previsão para lançamento na playstore, mas em breve será lançado em lojas de apps não oficiais do android. O lightsBlocker usa permissões agressivas do android, e cadeias de bloqueio muito intrincadas, o que pode gerar suspeita e alerta máximo do playprotect, o que nos proibe de estar na playstore, mas talvez consigamos lanças na playstore um dia com alguns ajustes e redução de funcionalidades. O sistema de bloqueio ficaria mais fácil de burlar, mas deixaríamos a opção de baixar a versão de bloqueio hardcore aqui no nosso site disponível.<br><br>
