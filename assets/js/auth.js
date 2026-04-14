@@ -16,10 +16,62 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentTempUser = "";
     let currentTempAvatar = "";
 
+    // --- FUNÇÕES DE INTERFACE PARA O RECADO ---
+
+    async function atualizarInterfaceRecado(userLogado, recadoOriginal) {
+        const display = document.getElementById('display-recado');
+        const btnEdit = document.getElementById('btn-edit-recado');
+        const textarea = document.getElementById('edit-recado');
+        const btnSave = document.getElementById('btn-save-recado');
+
+        if (display) display.textContent = recadoOriginal || "Sem recado disponível.";
+
+        // Evento de Editar
+        if (btnEdit) {
+            btnEdit.onclick = () => {
+                display.classList.add('hidden');
+                btnEdit.classList.add('hidden');
+                textarea.classList.remove('hidden');
+                btnSave.classList.remove('hidden');
+                textarea.value = (display.textContent === "Sem recado disponível.") ? "" : display.textContent;
+            };
+        }
+
+        // Evento de Salvar
+        if (btnSave) {
+            btnSave.onclick = async () => {
+                const novoTexto = textarea.value;
+                toggleLoading(true);
+                
+                const res = await callGAS({ 
+                    action: "atualizarRecado", 
+                    user: userLogado, 
+                    novoRecado: novoTexto 
+                });
+
+                toggleLoading(false);
+
+                if (res.sucesso) {
+                    display.textContent = novoTexto || "Sem recado disponível.";
+                    display.classList.remove('hidden');
+                    btnEdit.classList.remove('hidden');
+                    textarea.classList.add('hidden');
+                    btnSave.classList.add('hidden');
+                    
+                    // Atualiza o cache local
+                    const u = JSON.parse(localStorage.getItem('lightsBlockerUser'));
+                    u.recado = novoTexto;
+                    localStorage.setItem('lightsBlockerUser', JSON.stringify(u));
+                } else {
+                    alert("Erro ao salvar recado!");
+                }
+            };
+        }
+    }
+
     // Função Auxiliar para Formatar Data
     function formatarData(dataRaw) {
         if (!dataRaw) return "N/A";
-        // Tenta converter para data. Se já for string (ex: "12/04/2026"), vai dar "NaN" e cair no if abaixo
         const d = new Date(dataRaw);
         if (isNaN(d.getTime())) return dataRaw; 
         
@@ -29,22 +81,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${dia}/${mes}/${ano}`;
     }
 
-  function toggleLoading(show) {
-    const loadingOverlay = document.getElementById('loading-overlay');
-    if (!loadingOverlay) return;
+    function toggleLoading(show) {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (!loadingOverlay) return;
 
-    if (show) {
-        // Se já estiver aberto, não faz nada, se não, abre como Modal
-        if (!loadingOverlay.open) {
-            loadingOverlay.showModal();
-        }
-    } else {
-        // Fecha o dialog de loading
-        if (loadingOverlay.open) {
-            loadingOverlay.close();
+        if (show) {
+            if (!loadingOverlay.open) {
+                loadingOverlay.showModal();
+            }
+        } else {
+            if (loadingOverlay.open) {
+                loadingOverlay.close();
+            }
         }
     }
-}
 
     // --- GERADORES DINÂMICOS ---
 
@@ -92,8 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const dadosCadastro = {
             action: "registrar",
-            user: currentTempUser, // O nome EXATO da tela
-            avatar: currentTempAvatar, // O link EXATO da imagem da tela
+            user: currentTempUser,
+            avatar: currentTempAvatar,
             email: document.getElementById('reg-email').value,
             numero_telefone: document.getElementById('reg-tel').value,
             idade: document.getElementById('reg-age').value,
@@ -122,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
             welcomeText.textContent = `Bem-vindo, ${u.user}`;
             avatarImg.src = u.avatar || 'assets/default-avatar.png';
             
-            // GATILHO ADICIONADO AQUI: Força o carregamento dos posts da comunidade
             if (window.carregarPosts) {
                 window.carregarPosts();
             }
@@ -153,12 +202,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const user = JSON.parse(localStorage.getItem('lightsBlockerUser'));
         document.getElementById('dialog-profile-name').textContent = user.user;
         document.getElementById('dialog-profile-avatar').src = user.avatar;
-        // Tratamento da Data aplicado aqui:
         document.getElementById('profile-since').textContent = formatarData(user.data_criacao);
+        
+        // Inicializa a interface de recado ao abrir o perfil
+        atualizarInterfaceRecado(user.user, user.recado);
+        
         dialogProfile.showModal();
     });
 
-    // Botão para editar avatar dentro do perfil já logado
     document.getElementById('btn-edit-profile-avatar')?.addEventListener('click', async () => {
         toggleLoading(true);
         const resAvatar = await callGAS({ action: "getAvatarAleatorio" });
