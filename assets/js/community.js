@@ -1,3 +1,12 @@
+function toggleLoading(show) {
+    const loader = document.getElementById('loading-overlay');
+    if (!loader) return;
+    if (show) {
+        loader.showModal();
+    } else {
+        loader.close();
+    }
+}
 // Renderização dos Posts
 function renderizarPosts(posts) {
     const feedContainer = document.getElementById('feed-container');
@@ -84,7 +93,9 @@ async function abrirPostDetalhado(post) {
     
     document.getElementById('dialog-post').showModal();
 
+    toggleLoading(true); // Abre o loading enquanto busca comentários
     const res = await callGAS({ action: "getComments", postCode: post.code });
+    toggleLoading(false); // Fecha o loading
     if (res.sucesso) {
         commentsDiv.innerHTML = res.comments.length ? '' : '<p style="font-size:0.8rem; color:#888;">Nenhum comentário ainda.</p>';
         res.comments.forEach(c => {
@@ -103,9 +114,9 @@ async function abrirPerfilUsuario(username) {
     const userLocal = JSON.parse(localStorage.getItem('lightsBlockerUser'));
     const isMe = userLocal && userLocal.user === username;
 
-    if (window.toggleLoading) window.toggleLoading(true);
+    toggleLoading(true); // Abre o loading para buscar os dados do perfil
     const res = await callGAS({ action: "buscarPerfilPublico", user: username });
-    if (window.toggleLoading) window.toggleLoading(false);
+    toggleLoading(false); // Fecha o loading
 
     if (res.sucesso) {
         document.getElementById('dialog-profile-avatar').src = res.dados.avatar;
@@ -147,7 +158,9 @@ document.getElementById('form-comment')?.addEventListener('submit', async (e) =>
 
 async function carregarPosts() {
     if (!document.getElementById('login-screen').classList.contains('hidden')) return;
+  toggleLoading(true); // Abre o loading
     const res = await callGAS({ action: "getPosts" });
+    toggleLoading(false); // Fecha o loading
     if (res.sucesso) renderizarPosts(res.posts);
 }
 
