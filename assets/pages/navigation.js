@@ -60,5 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('nav-blog')?.addEventListener('click', () => {
         showView('blog');
+        carregarBlog();
     });
 });
