@@ -308,3 +308,30 @@ dialog::backdrop {
     font-weight: bold;
     text-align: center;
 }
+.fab-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 999;
+    transition: transform 0.2s;
+}
+
+.fab-button:hover {
+    transform: scale(1.1);
+}
+
+/* Garante que o botão some se a seção da comunidade estiver oculta */
+.hidden + .fab-button, 
+#community-screen.hidden .fab-button {
+    display: none;
+}
