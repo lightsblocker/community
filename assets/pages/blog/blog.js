@@ -18,7 +18,7 @@ async function carregarBlog() {
             const imgMatch = htmlBruto.match(/img="(.*?)"/i);
             
             const titulo = tituloMatch ? tituloMatch[1] : "Sem título";
-            const imgUrl = imgMatch ? imgMatch[1] : "https://via.placeholder.com/300x400?text=Sem+Imagem";
+            const imgUrl = imgMatch ? imgMatch[1] : "assets/pages/blog/img-padrao.png";
 
             // 3. Criar o Card
             const card = document.createElement('div');
