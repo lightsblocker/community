@@ -196,20 +196,63 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- PERFIL E EDIÇÃO ---
+   // --- PERFIL E EDIÇÃO ---
 
+    /**
+     * Função Global para abrir qualquer perfil.
+     * @param {Object} dados - Objeto com user, avatar, data_criacao e recado.
+     * @param {Boolean} eDono - Define se mostra botões de edição e logout.
+     */
+    window.abrirPerfil = function(dados, eDono = false) {
+        // Preenche os campos básicos com os dados recebidos (seja seu ou de outro)
+        document.getElementById('dialog-profile-name').textContent = dados.user;
+        document.getElementById('dialog-profile-avatar').src = dados.avatar;
+        document.getElementById('profile-since').textContent = formatarData(dados.data_criacao);
+        
+        // Exibe o recado específico deste perfil
+        const display = document.getElementById('display-recado');
+        if (display) {
+            display.textContent = dados.recado || "Sem recado disponível.";
+            // Garante que o texto volte a aparecer caso tenha sido deixado em modo edição
+            display.classList.remove('hidden');
+        }
+
+        // Reseta o estado do textarea e botões de salvar (limpeza de segurança)
+        document.getElementById('edit-recado')?.classList.add('hidden');
+        document.getElementById('btn-save-recado')?.classList.add('hidden');
+
+        // Mapeamento das zonas de controle
+        const editZone = document.getElementById('profile-edit-zone');
+        const logoutZone = document.getElementById('profile-logout-zone');
+        const btnEditRecado = document.getElementById('btn-edit-recado');
+
+        if (eDono) {
+            // Se for o dono, mostra botões de trocar avatar, editar recado e sair
+            editZone?.classList.remove('hidden');
+            logoutZone?.classList.remove('hidden');
+            btnEditRecado?.classList.remove('hidden');
+            
+            // Inicializa os eventos de clique para editar/salvar o seu recado
+            atualizarInterfaceRecado(dados.user, dados.recado);
+        } else {
+            // Se for perfil alheio, esconde todas as ferramentas de alteração
+            editZone?.classList.add('hidden');
+            logoutZone?.classList.add('hidden');
+            btnEditRecado?.classList.add('hidden');
+        }
+
+        dialogProfile.showModal();
+    };
+
+    // Abre o SEU perfil ao clicar no avatar do cabeçalho
     document.getElementById('my-profile-btn')?.addEventListener('click', () => {
         const user = JSON.parse(localStorage.getItem('lightsBlockerUser'));
-        document.getElementById('dialog-profile-name').textContent = user.user;
-        document.getElementById('dialog-profile-avatar').src = user.avatar;
-        document.getElementById('profile-since').textContent = formatarData(user.data_criacao);
-        
-        // Inicializa a interface de recado ao abrir o perfil
-        atualizarInterfaceRecado(user.user, user.recado);
-        
-        dialogProfile.showModal();
+        if (user) {
+            window.abrirPerfil(user, true);
+        }
     });
 
+    // Lógica para trocar o avatar (Apenas para o dono)
     document.getElementById('btn-edit-profile-avatar')?.addEventListener('click', async () => {
         toggleLoading(true);
         const resAvatar = await callGAS({ action: "getAvatarAleatorio" });
@@ -230,7 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         toggleLoading(false);
     });
-
     // --- AUXILIARES ---
 
     document.querySelectorAll('.close-dialog').forEach(btn => {
