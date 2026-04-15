@@ -7,6 +7,7 @@ function toggleLoading(show) {
         loader.close();
     }
 }
+
 // Renderização dos Posts
 function renderizarPosts(posts) {
     const feedContainer = document.getElementById('feed-container');
@@ -110,24 +111,38 @@ async function abrirPostDetalhado(post) {
     }
 }
 
+// FUNÇÃO ATUALIZADA: Agora separa perfil próprio de perfil de terceiros
 async function abrirPerfilUsuario(username) {
     const userLocal = JSON.parse(localStorage.getItem('lightsBlockerUser'));
-    const isMe = userLocal && userLocal.user === username;
+    
+    // Se o perfil clicado for o meu, aciona o botão de perfil do auth.js que já tem a lógica de edição
+    if (userLocal && userLocal.user === username) {
+        document.getElementById('my-profile-btn').click();
+        return;
+    }
 
-    toggleLoading(true); // Abre o loading para buscar os dados do perfil
+    // Se for outro usuário, busca os dados e abre a dialog de visualização (sem edição)
+    toggleLoading(true); 
     const res = await callGAS({ action: "buscarPerfilPublico", user: username });
-    toggleLoading(false); // Fecha o loading
+    toggleLoading(false);
 
-    if (res.sucesso) {
-        document.getElementById('dialog-profile-avatar').src = res.dados.avatar;
-        document.getElementById('dialog-profile-name').textContent = res.dados.user;
-        document.getElementById('profile-since').textContent = res.dados.data_criacao;
+    if (res.sucesso && res.dados) {
+        const dados = res.dados;
+        
+        // Preenche os elementos da dialog-profile-other (criada no HTML)
+        document.getElementById('dialog-profile-avatar-other').src = dados.avatar || 'assets/default-avatar.png';
+        document.getElementById('dialog-profile-name-other').textContent = dados.user;
+        
+        // Formata a data se necessário (se não houver a função formatarData global, usamos o valor bruto ou processamos aqui)
+        let dataMembro = dados.data_criacao;
+        if(dataMembro && dataMembro.includes('T')) dataMembro = new Date(dataMembro).toLocaleDateString('pt-BR');
+        
+        document.getElementById('profile-since-other').textContent = dataMembro;
+        document.getElementById('display-recado-other').textContent = dados.recado || "Sem recado disponível.";
 
-        // Controle de permissão: Esconde botões se não for o dono do perfil
-        document.getElementById('profile-edit-zone').style.display = isMe ? 'block' : 'none';
-        document.getElementById('profile-logout-zone').style.display = isMe ? 'block' : 'none';
-
-        document.getElementById('dialog-profile').showModal();
+        document.getElementById('dialog-profile-other').showModal();
+    } else {
+        alert("Erro ao carregar perfil do usuário.");
     }
 }
 
