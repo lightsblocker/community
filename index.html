@@ -7,14 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/pages/feedback/feedback.css">
-<link rel="stylesheet" href="assets/pages/download/download.css">
+    <link rel="stylesheet" href="assets/pages/download/download.css">
     <link rel="stylesheet" href="assets/pages/blog/blog.css">
 </head>
 <body>
     <dialog id="loading-overlay">
         <div class="loader-content">
             <img src="assets/logo.png" class="loader-logo">
-        </div>    
+        </div>  
     </dialog>
 
     <header id="main-header">
@@ -122,7 +122,7 @@
 <b>Por que escolher o LightsBlocker?</b><br>
 Diferente de outros bloqueadores que são facilmente burlados, o LightsBlocker foi construído com foco em estabilidade técnica. Ele utiliza serviços de acessibilidade e VPN de forma otimizada para garantir que o bloqueio seja preciso e que a proteção nunca "durma" em segundo plano.
 
-<b>Retome seu tempo. Proteja sua mente. Ilumine sua produtividade.</b>b><br>
+<b>Retome seu tempo. Proteja sua mente. Ilumine sua produtividade.</b><br>
 
 <b>Notas Técnicas para o Usuário:</b><br>
 <b>- Privacidade:</b> O app utiliza VpnService local para filtragem DNS, sem coletar ou enviar seus dados de navegação para servidores externos.<br>
@@ -226,6 +226,22 @@ Diferente de outros bloqueadores que são facilmente burlados, o LightsBlocker f
         <button id="btn-save-recado" class="btn-primary hidden" style="padding: 5px 15px; font-size: 0.8rem;">Salvar</button>
                 <br>
                 <button id="btn-logout" class="btn-text" style="color: #f44336;">Sair da Conta</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="dialog-profile-other">
+        <div class="dialog-content">
+            <button class="close-dialog" onclick="this.closest('dialog').close()">X</button>
+            <div style="text-align: center;">
+                <img src="" id="dialog-profile-avatar-other" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent-blue);">
+                <br>
+            </div>
+            <h3 id="dialog-profile-name-other" style="text-align: center; margin-top: 10px;">Username</h3>
+            <p style="text-align: center;">Membro desde: <span id="profile-since-other"></span></p>
+            <div id="container-recado-other" style="margin-top: 15px; background: #222; padding: 10px; border-radius: 8px;">
+                <p style="text-align: center; font-weight: bold; margin-bottom: 5px; color: var(--white);">Recado:</p>
+                <p id="display-recado-other" style="text-align: center; font-style: italic; color: #eee; min-height: 20px;"></p>
             </div>
         </div>
     </dialog>
